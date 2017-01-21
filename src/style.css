@@ -26,10 +26,19 @@ main {
   background-color: darkred;
   height: 1rem;
   position: absolute;
+  transition: all 0.6s;
   width: 1rem;
 }
 
 .player {
+  background-color: dodgerblue;
+  height: 1rem;
+  position: absolute;
+  transition: all 0.2s;
+  width: 1rem;
+}
+
+.wall {
   background-color: slategray;
   height: 1rem;
   position: absolute;

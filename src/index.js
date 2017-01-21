@@ -2,24 +2,26 @@ import './style.css';
 import Vue from 'vue';
 import Enemy from 'components/enemy';
 import Player from 'components/player';
+import Wall from 'components/wall';
 import { DOWN, LEFT, RIGHT, UP } from 'keycodes';
 import store from 'store';
 
 new Vue({
+  data: { state: store.state },
   el: 'main',
-  data: {
-    state: store.state,
-  },
   render (createElement) {
-    const { enemies, player } = this.$root.$data.state;
+    const { enemies, player, walls } = this.$root.$data.state;
 
     const enemyNodes = enemies.map(enemy => createElement(Enemy, {
       props: enemy,
     }));
 
+    const wallNodes = walls.map(wall => createElement(Wall, { props: wall }));
+
     return createElement('main', [
       createElement(Player, { props: player }),
       ...enemyNodes,
+      ...wallNodes,
     ]);
   },
 });
