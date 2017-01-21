@@ -12,5 +12,26 @@ html {
 
 body {
   height: 100%;
+  margin: 0;
+  padding: 0;
   width: 100%;
+}
+
+main {
+  height: 100%;
+  width: 100%;
+}
+
+.enemy {
+  background-color: darkred;
+  height: 1rem;
+  position: absolute;
+  width: 1rem;
+}
+
+.player {
+  background-color: slategray;
+  height: 1rem;
+  position: absolute;
+  width: 1rem;
 }

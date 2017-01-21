@@ -1,11 +1,34 @@
 import './style.css';
-import { DOWN, LEFT, RIGHT, UP } from 'key-codes';
+import Vue from 'vue';
+import Enemy from 'components/enemy';
+import Player from 'components/player';
+import { DOWN, LEFT, RIGHT, UP } from 'keycodes';
+import store from 'store';
+
+new Vue({
+  el: 'main',
+  data: {
+    state: store.state,
+  },
+  render (createElement) {
+    const { enemies, player } = this.$root.$data.state;
+
+    const enemyNodes = enemies.map(enemy => createElement(Enemy, {
+      props: enemy,
+    }));
+
+    return createElement('main', [
+      createElement(Player, { props: player }),
+      ...enemyNodes,
+    ]);
+  },
+});
 
 const keyHandlers = {
-  [LEFT]: () => console.log('left'),
-  [UP]: () => console.log('up'),
-  [RIGHT]: () => console.log('right'),
-  [DOWN]: () => console.log('down'),
+  [DOWN]: () => store.moveDown(),
+  [LEFT]: () => store.moveLeft(),
+  [RIGHT]: () => store.moveRight(),
+  [UP]: () => store.moveUp(),
 };
 
 const keysCurrentlyPressed = new Set();

@@ -1,8 +1,11 @@
 {
   "babel": {
     "presets": [
-        ["es2015", { "modules": false }]
+      ["es2015", { "modules": false }]
     ]
+  },
+  "dependencies": {
+    "vue": "^2.1.10"
   },
   "devDependencies": {
     "babel-core": "^6.22.1",
