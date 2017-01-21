@@ -1,3 +1,5 @@
+import { getEntityStyle } from '../util';
+
 export default {
   functional: true,
 
@@ -10,11 +12,8 @@ export default {
     const { x, y } = props;
 
     return createElement('div', {
-      'class': 'player',
-      style: {
-        left: `${x}rem`,
-        top: `${y}rem`,
-      },
+      'class': 'entity player',
+      style: getEntityStyle(x, y),
     });
   },
 };

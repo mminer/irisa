@@ -1,119 +1,119 @@
-import { ENEMY, PLAYER, WALL } from 'glyphs';
-import levels from 'levels';
+import { Enemy, Player, Wall} from './entities';
+import { createEntitiesFromLevel, findOverlappingEntities } from './util';
+import levels from './levels';
 
 export default {
   state: {
-    enemies: [
-      { x: 1, y: 3 },
-      { x: 4, y: 4 },
-      { x: 2, y: 9 },
-    ],
+    entities: [],
 
-    player: { x: 3, y: 7 },
+    get enemies () {
+      return this.entities.filter(entity => entity instanceof Enemy);
+    },
 
-    walls: [
-      { x: 1, y: 5 },
-      { x: 2, y: 5 },
-      { x: 3, y: 5 },
-    ]
+    get player () {
+      return this.entities.find(entity => entity instanceof Player);
+    },
+
+    get walls () {
+      return this.entities.filter(entity => entity instanceof Wall);
+    },
   },
 
-  getLevelTiles (index) {
-    const level = levels[index];
-
-    return level.reduce((tileArray, row, y) => {
-      const rowTiles = row
-        .split('')
-        .map((glyph, x) => ({ glyph, x, y }));
-
-      return tileArray.concat(rowTiles);
-    }, []);
+  get aliveEnemies () {
+    return this.state.enemies.filter(enemy => !enemy.isDestroyed);
   },
 
   isWallAtPosition (x, y) {
-    return this.state.walls.some(wall => wall.x === x && wall.y === y);
+    return this.state.walls.some(wall => wall.isAtPosition(x, y));
   },
 
   loadLevel (index) {
-    const tiles = this.getLevelTiles(index);
-    this.state.enemies = tiles.filter(tile => tile.glyph === ENEMY);
-    this.state.player = tiles.find(tile => tile.glyph === PLAYER);
-    this.state.walls = tiles.filter(tile => tile.glyph === WALL);
-  },
-
-  moveCharacter (character, deltaX, deltaY) {
-    let { x, y } = character;
-    x += deltaX;
-    y += deltaY;
-
-    // Disallow moving into a wall.
-    if (this.isWallAtPosition(x, y)) {
-      return false;
-    }
-
-    character.x = x;
-    character.y = y;
-    return true
+    const level = levels[index];
+    this.state.entities = createEntitiesFromLevel(level);
   },
 
 
   // Enemy movement:
 
+  killOverlappingEnemies () {
+    findOverlappingEntities(this.aliveEnemies).forEach(enemy => {
+      const { x, y } = enemy;
+
+      if (!this.isWallAtPosition(x, y)) {
+        const wall = new Wall(x, y);
+        this.state.entities.push(wall);
+      }
+
+      enemy.isDestroyed = true;
+    });
+  },
+
   moveEnemies () {
     setTimeout(() => {
-      this.state.enemies.forEach(enemy => this.moveEnemy(enemy));
-    }, 1000);
+      this.aliveEnemies.forEach(this.moveEnemy, this);
+      this.killOverlappingEnemies();
+    }, 200);
   },
 
   moveEnemy (enemy) {
     const { player } = this.state;
-    const { x, y } = enemy;
-    let deltaX = 0;
-    let deltaY = 0;
+    let { x, y } = enemy;
 
     // Move horizontally towards player.
     if (x < player.x) {
-      deltaX = 1;
+      x += 1;
     } else if (x > player.x) {
-      deltaX = -1;
+      x -= 1;
     }
 
     // Move vertically towards player.
     if (y < player.y) {
-      deltaY = 1;
+      y += 1;
     } else if (y > player.y) {
-      deltaY = -1;
+      y -= 1;
     }
 
-    this.moveCharacter(enemy, deltaX, deltaY);
+    enemy.moveTo(x, y);
+
+    if (this.isWallAtPosition(x, y)) {
+      enemy.isDestroyed = true;
+    }
   },
 
 
   // Player movement:
 
-  movePlayer (deltaX, deltaY) {
-    const didMove = this.moveCharacter(this.state.player, deltaX, deltaY);
+  movePlayerBy (xDelta, yDelta) {
+    const { player } = this.state;
+    let { x, y } = player;
+    this.movePlayerTo(x + xDelta, y + yDelta);
+  },
 
-    if (!didMove) {
+  movePlayerTo (x, y) {
+    const { player } = this.state;
+    const { x: currentX, y: currentY } = player;
+
+    if (player.isBeyondMovementRange(x, y) || this.isWallAtPosition(x, y)) {
       return;
     }
 
+    player.moveTo(x, y);
     this.moveEnemies();
   },
 
-  moveDown () {
-    this.movePlayer(0, 1);
+  movePlayerDown () {
+    this.movePlayerBy(0, 1);
   },
 
-  moveLeft () {
-    this.movePlayer(-1, 0);
+  movePlayerLeft () {
+    this.movePlayerBy(-1, 0);
   },
 
-  moveRight () {
-    this.movePlayer(1, 0);
+  movePlayerRight () {
+    this.movePlayerBy(1, 0);
   },
 
-  moveUp () {
-    this.movePlayer(0, -1);
+  movePlayerUp () {
+    this.movePlayerBy(0, -1);
   },
 };

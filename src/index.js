@@ -1,10 +1,11 @@
 import './style.css';
 import Vue from 'vue';
-import Enemy from 'components/enemy';
-import Player from 'components/player';
-import Wall from 'components/wall';
-import { DOWN, LEFT, RIGHT, UP } from 'keycodes';
-import store from 'store';
+import Enemy from './components/enemy';
+import Player from './components/player';
+import Wall from './components/wall';
+import { SQUARE_SIZE } from './constants';
+import { DOWN, LEFT, RIGHT, UP } from './keycodes';
+import store from './store';
 
 store.loadLevel(0);
 
@@ -14,14 +15,27 @@ new Vue({
   render (createElement) {
     const { enemies, player, walls } = this.$root.$data.state;
 
-    const enemyNodes = enemies.map(enemy => createElement(Enemy, {
-      props: enemy,
+    const enemyNodes = enemies.map(({ isDestroyed, x, y }) => createElement(Enemy, {
+      props: { isDestroyed, x, y },
     }));
 
-    const wallNodes = walls.map(wall => createElement(Wall, { props: wall }));
+    const wallNodes = walls.map(({ x, y }) => createElement(Wall, {
+      props: { x, y },
+    }));
 
-    return createElement('main', [
-      createElement(Player, { props: player }),
+    return createElement('main', {
+      on: {
+        'click': event => {
+          const { clientX, clientY } = event;
+          const x = Math.floor(clientX / SQUARE_SIZE);
+          const y = Math.floor(clientY / SQUARE_SIZE);
+          store.movePlayerTo(x, y);
+        },
+      },
+    }, [
+      createElement(Player, {
+        props: { x: player.x, y: player.y },
+      }),
       ...enemyNodes,
       ...wallNodes,
     ]);
@@ -29,10 +43,10 @@ new Vue({
 });
 
 const keyHandlers = {
-  [DOWN]: () => store.moveDown(),
-  [LEFT]: () => store.moveLeft(),
-  [RIGHT]: () => store.moveRight(),
-  [UP]: () => store.moveUp(),
+  [DOWN]: () => store.movePlayerDown(),
+  [LEFT]: () => store.movePlayerLeft(),
+  [RIGHT]: () => store.movePlayerRight(),
+  [UP]: () => store.movePlayerUp(),
 };
 
 const keysCurrentlyPressed = new Set();
