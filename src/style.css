@@ -1,4 +1,5 @@
 :root {
+  --player-transition-duration: 0.2s;
   --square-size: 40px;
 }
 
@@ -32,9 +33,16 @@ main {
   width: var(--square-size);
 }
 
+.door {
+  background-color: forestgreen;
+  z-index: 0;
+}
+
 .enemy {
   background-color: darkred;
   transition: all 0.6s;
+  transition-delay: var(--player-transition-duration);
+  z-index: 2;
 
   &.destroyed {
     opacity: 0;
@@ -43,9 +51,11 @@ main {
 
 .player {
   background-color: dodgerblue;
-  transition: all 0.2s;
+  transition: all var(--player-transition-duration);
+  z-index: 1;
 }
 
 .wall {
   background-color: slategray;
+  z-index: 0;
 }

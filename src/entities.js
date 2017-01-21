@@ -1,4 +1,4 @@
-import { ENEMY, PLAYER, WALL } from './glyphs';
+import { DOOR, ENEMY, PLAYER, WALL } from './glyphs';
 
 export class Entity {
   constructor (x, y) {
@@ -23,6 +23,9 @@ export class Entity {
 
   static fromGlyph (glyph, x, y) {
     switch (glyph) {
+      case DOOR:
+        return new Door(x, y);
+
       case ENEMY:
         return new Enemy(x, y);
 
@@ -45,5 +48,6 @@ export class Enemy extends Entity {
   }
 }
 
+export class Door extends Entity {}
 export class Player extends Entity {}
 export class Wall extends Entity {}

@@ -1,10 +1,16 @@
-import { Enemy, Player, Wall} from './entities';
+import { Door, Enemy, Player, Wall} from './entities';
 import { createEntitiesFromLevel, findOverlappingEntities } from './util';
 import levels from './levels';
 
 export default {
+  currentLevelNumber: 0,
+
   state: {
     entities: [],
+
+    get door () {
+      return this.entities.find(entity => entity instanceof Door);
+    },
 
     get enemies () {
       return this.entities.filter(entity => entity instanceof Enemy);
@@ -23,13 +29,37 @@ export default {
     return this.state.enemies.filter(enemy => !enemy.isDestroyed);
   },
 
+  get isLossConditionMet () {
+    const { x, y } = this.state.player;
+    return this.aliveEnemies.some(enemy => enemy.isAtPosition(x, y));
+  },
+
+  get isWinConditionMet () {
+    const { x, y } = this.state.door;
+    return this.state.player.isAtPosition(x, y);
+  },
+
+  checkForWinOrLoss () {
+    if (this.isLossConditionMet) {
+      alert('Lost!');
+      this.reloadLevel();
+    } else if (this.isWinConditionMet) {
+      alert('Won!');
+    }
+  },
+
   isWallAtPosition (x, y) {
     return this.state.walls.some(wall => wall.isAtPosition(x, y));
   },
 
-  loadLevel (index) {
-    const level = levels[index];
+  loadLevel (levelNumber) {
+    const level = levels[levelNumber];
     this.state.entities = createEntitiesFromLevel(level);
+    this.currentLevelNumber = levelNumber;
+  },
+
+  reloadLevel () {
+    this.loadLevel(this.currentLevelNumber);
   },
 
 
@@ -49,10 +79,8 @@ export default {
   },
 
   moveEnemies () {
-    setTimeout(() => {
-      this.aliveEnemies.forEach(this.moveEnemy, this);
-      this.killOverlappingEnemies();
-    }, 200);
+    this.aliveEnemies.forEach(this.moveEnemy, this);
+    this.killOverlappingEnemies();
   },
 
   moveEnemy (enemy) {
@@ -99,6 +127,7 @@ export default {
 
     player.moveTo(x, y);
     this.moveEnemies();
+    this.checkForWinOrLoss();
   },
 
   movePlayerDown () {

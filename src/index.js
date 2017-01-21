@@ -1,10 +1,11 @@
 import './style.css';
 import Vue from 'vue';
+import Door from './components/door';
 import Enemy from './components/enemy';
 import Player from './components/player';
 import Wall from './components/wall';
 import { SQUARE_SIZE } from './constants';
-import { DOWN, LEFT, RIGHT, UP } from './keycodes';
+import { DOWN, LEFT, R, RIGHT, UP } from './keycodes';
 import store from './store';
 
 store.loadLevel(0);
@@ -13,7 +14,9 @@ new Vue({
   data: { state: store.state },
   el: 'main',
   render (createElement) {
-    const { enemies, player, walls } = this.$root.$data.state;
+    const { door, enemies, player, walls } = this.$root.$data.state;
+
+    window.door = door;
 
     const enemyNodes = enemies.map(({ isDestroyed, x, y }) => createElement(Enemy, {
       props: { isDestroyed, x, y },
@@ -36,6 +39,9 @@ new Vue({
       createElement(Player, {
         props: { x: player.x, y: player.y },
       }),
+      createElement(Door, {
+        props: { x: door.x, y: door.y },
+      }),
       ...enemyNodes,
       ...wallNodes,
     ]);
@@ -45,6 +51,7 @@ new Vue({
 const keyHandlers = {
   [DOWN]: () => store.movePlayerDown(),
   [LEFT]: () => store.movePlayerLeft(),
+  [R]: () => store.reloadLevel(),
   [RIGHT]: () => store.movePlayerRight(),
   [UP]: () => store.movePlayerUp(),
 };
