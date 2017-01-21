@@ -1,3 +1,6 @@
+import { ENEMY, PLAYER, WALL } from 'glyphs';
+import levels from 'levels';
+
 export default {
   state: {
     enemies: [
@@ -15,8 +18,27 @@ export default {
     ]
   },
 
+  getLevelTiles (index) {
+    const level = levels[index];
+
+    return level.reduce((tileArray, row, y) => {
+      const rowTiles = row
+        .split('')
+        .map((glyph, x) => ({ glyph, x, y }));
+
+      return tileArray.concat(rowTiles);
+    }, []);
+  },
+
   isWallAtPosition (x, y) {
     return this.state.walls.some(wall => wall.x === x && wall.y === y);
+  },
+
+  loadLevel (index) {
+    const tiles = this.getLevelTiles(index);
+    this.state.enemies = tiles.filter(tile => tile.glyph === ENEMY);
+    this.state.player = tiles.find(tile => tile.glyph === PLAYER);
+    this.state.walls = tiles.filter(tile => tile.glyph === WALL);
   },
 
   moveCharacter (character, deltaX, deltaY) {

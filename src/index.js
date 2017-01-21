@@ -6,6 +6,8 @@ import Wall from 'components/wall';
 import { DOWN, LEFT, RIGHT, UP } from 'keycodes';
 import store from 'store';
 
+store.loadLevel(0);
+
 new Vue({
   data: { state: store.state },
   el: 'main',
