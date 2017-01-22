@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="40px" height="45px" viewBox="0 0 40 45" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="39px" height="45px" viewBox="0 0 39 45" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
     <title>freezetime2</title>
     <desc>Created with Sketch.</desc>
@@ -10,12 +10,16 @@
         </mask>
     </defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="freezetime2" transform="translate(-0.137202, 0.000000)">
-            <use id="Path" stroke="#FFFFFF" mask="url(#mask-2)" stroke-width="10" fill="#F1C40F" xlink:href="#path-1"></use>
-            <path d="M15.7118239,4.07978303 C14.2054214,2.1343562 11.8484092,0.880392782 9.19779949,0.880392782 C4.65115314,0.880392782 0.966092169,4.56545376 0.966092169,9.1121001 C0.966092169,10.5965513 1.35847022,11.9904538 2.04718973,13.192283 C5.19718973,8.58801473 10.0566409,5.24594156 15.7118239,4.07703912 L15.7118239,4.07978303 Z" id="Path" fill="#FFFFFF"></path>
-            <path d="M38.2996288,13.192283 C38.9883483,11.9904538 39.3807263,10.5965513 39.3807263,9.1121001 C39.3807263,4.56545376 35.6956653,0.880392782 31.149019,0.880392782 C28.4984092,0.880392782 26.141397,2.1343562 24.6349946,4.07978303 C30.2901775,5.24868547 35.1468849,8.59075864 38.2996288,13.1950269 L38.2996288,13.1950269 L38.2996288,13.192283 Z" id="Path" fill="#FFFFFF"></path>
+        <g id="freezetime2" transform="translate(-1.758064, -0.277984)">
+            <g id="freezetime">
+                <g transform="translate(0.878049, 0.000000)" id="Path">
+                    <use stroke="#FFFFFF" mask="url(#mask-2)" stroke-width="10" fill="#F1C40F" xlink:href="#path-1"></use>
+                    <path d="M15.7118239,4.07978303 C14.2054214,2.1343562 11.8484092,0.880392782 9.19779949,0.880392782 C4.65115314,0.880392782 0.966092169,4.56545376 0.966092169,9.1121001 C0.966092169,10.5965513 1.35847022,11.9904538 2.04718973,13.192283 C5.19718973,8.58801473 10.0566409,5.24594156 15.7118239,4.07703912 L15.7118239,4.07978303 Z" fill="#FFFFFF"></path>
+                    <path d="M38.2996288,13.192283 C38.9883483,11.9904538 39.3807263,10.5965513 39.3807263,9.1121001 C39.3807263,4.56545376 35.6956653,0.880392782 31.149019,0.880392782 C28.4984092,0.880392782 26.141397,2.1343562 24.6349946,4.07978303 C30.2901775,5.24868547 35.1468849,8.59075864 38.2996288,13.1950269 L38.2996288,13.1950269 L38.2996288,13.192283 Z" fill="#FFFFFF"></path>
+                </g>
+            </g>
             <text id="2" font-family="SFUIDisplay-Black, SF UI Display" font-size="22" font-weight="700" letter-spacing="1.375" fill="#FFFFFF">
-                <tspan x="13.0345427" y="33.1464757">2</tspan>
+                <tspan x="14.3849658" y="33.2029062">2</tspan>
             </text>
         </g>
     </g>

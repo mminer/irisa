@@ -3,7 +3,7 @@ import Vue from 'vue';
 import Board from './components/board';
 import Footer from './components/footer';
 import Nav from './components/nav';
-import { DOWN, LEFT, R, RIGHT, UP } from './keycodes';
+import { A, D, DOWN, LEFT, R, RIGHT, S, UP, W } from './keycodes';
 import levels from './levels';
 import store from './store';
 
@@ -40,11 +40,17 @@ const app = new Vue({
 });
 
 const keyHandlers = {
-  [DOWN]: () => store.movePlayerDown(),
-  [LEFT]: () => store.movePlayerLeft(),
-  [R]: () => store.reloadLevel(),
-  [RIGHT]: () => store.movePlayerRight(),
   [UP]: () => store.movePlayerUp(),
+  [LEFT]: () => store.movePlayerLeft(),
+  [DOWN]: () => store.movePlayerDown(),
+  [RIGHT]: () => store.movePlayerRight(),
+
+  [W]: () => store.movePlayerUp(),
+  [A]: () => store.movePlayerLeft(),
+  [S]: () => store.movePlayerDown(),
+  [D]: () => store.movePlayerRight(),
+
+  [R]: () => store.reloadLevel(),
 };
 
 const keysCurrentlyPressed = new Set();

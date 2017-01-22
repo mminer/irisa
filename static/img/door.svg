@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="45px" height="43px" viewBox="0 0 45 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="45px" height="44px" viewBox="0 0 45 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
     <title>door</title>
     <desc>Created with Sketch.</desc>
     <defs>
-        <polygon id="path-1" points="22.5 0 45 16.3472069 36.4057647 42.7975432 8.59423525 42.7975432 0 16.3472069"></polygon>
+        <polygon id="path-1" points="22.4919355 0.575527156 44.9919355 16.922734 36.3977003 43.3730704 8.58617079 43.3730704 -0.00806446538 16.922734"></polygon>
         <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="45" height="42.7975432" fill="white">
             <use xlink:href="#path-1"></use>
         </mask>

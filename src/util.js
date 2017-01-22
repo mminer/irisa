@@ -39,3 +39,9 @@ export function getEntityStyle (boardSize, x, y) {
     width: `${squareSize}%`,
   };
 }
+
+export function playSoundEffect (audio) {
+  audio.pause();
+  audio.currentTime = 0;
+  audio.play();
+}

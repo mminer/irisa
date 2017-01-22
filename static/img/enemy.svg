@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="45px" height="45px" viewBox="0 0 45 45" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="46px" height="46px" viewBox="0 0 46 46" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
     <title>enemy</title>
     <desc>Created with Sketch.</desc>
     <defs>
-        <polygon id="path-1" points="22.5 35.5958386 6.24500451e-15 45 9.40416144 22.5 0 6.24500451e-15 22.5 9.40416144 45 0 35.5958386 22.5 45 45"></polygon>
+        <polygon id="path-1" points="22.6290085 36.1713657 0.129008509 45.5755272 9.53316995 23.0755272 0.129008509 0.575527156 22.6290085 9.9796886 45.1290085 0.575527156 35.7248471 23.0755272 45.1290085 45.5755272"></polygon>
         <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="45" height="45" fill="white">
             <use xlink:href="#path-1"></use>
         </mask>

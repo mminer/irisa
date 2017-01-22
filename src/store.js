@@ -1,5 +1,13 @@
 import { NEXT_LEVEL_DELAY, PLAYER_MOVE_DURATION } from './constants';
 import {
+  FREEZE_TIME_AUDIO,
+  LOSE_AUDIO,
+  MOVE_AUDIO,
+  REVERSE_AUDIO,
+  TELEPORT_AUDIO,
+  WIN_AUDIO,
+} from './audio';
+import {
   Door,
   Enemy,
   FreezeTime,
@@ -10,7 +18,11 @@ import {
 } from './entities';
 import { LOST, PLAYING, WON } from './gamestate';
 import levels from './levels';
-import { createEntitiesFromLevel, findOverlappingEntities } from './util';
+import {
+  createEntitiesFromLevel,
+  findOverlappingEntities,
+  playSoundEffect,
+} from './util';
 
 export default {
   frozenTurnsRemaining: 0,
@@ -73,6 +85,7 @@ export default {
   lose () {
     this.state.gameState = LOST;
     setTimeout(() => this.reloadLevel(), NEXT_LEVEL_DELAY);
+    playSoundEffect(LOSE_AUDIO);
   },
 
   pickUpCollectablesAt (x, y) {
@@ -84,6 +97,7 @@ export default {
     if (freezeTime) {
       this.frozenTurnsRemaining = freezeTime.forTurns;
       freezeTime.isDisabled = true;
+      playSoundEffect(FREEZE_TIME_AUDIO);
     }
 
     const reverse = this.state.entities
@@ -95,6 +109,7 @@ export default {
       this.reverseEnemiesAndWalls();
       this.frozenTurnsRemaining += 1;
       reverse.isDisabled = true;
+      playSoundEffect(REVERSE_AUDIO);
     }
   },
 
@@ -130,11 +145,13 @@ export default {
     const secondTeleporter = teleporters.find(teleporter => teleporter != firstTeleporter);
     const { x: newX, y: newY } = secondTeleporter;
     this.player.moveTo(newX, newY);
+    playSoundEffect(TELEPORT_AUDIO);
     return true;
   },
 
   win () {
     this.state.gameState = WON;
+    playSoundEffect(WIN_AUDIO);
     setTimeout(() => this.loadNextLevel(), NEXT_LEVEL_DELAY);
   },
 
@@ -155,6 +172,7 @@ export default {
     this.state.currentLevelNumber = levelNumber;
     this.state.entities = createEntitiesFromLevel(level);
     this.state.gameState = PLAYING;
+    console.info('Loaded level', levelNumber);
   },
 
   loadNextLevel () {
@@ -226,6 +244,10 @@ export default {
   // Player movement:
 
   movePlayerBy (xDelta, yDelta) {
+    if (this.state.gameState !== PLAYING) {
+      return;
+    }
+
     const { player } = this;
     let { x, y } = player;
     x += xDelta;
@@ -236,6 +258,7 @@ export default {
     }
 
     player.moveTo(x, y);
+    playSoundEffect(MOVE_AUDIO);
 
     // Wait for player move animation to complete before reacting to it.
     setTimeout(() => {

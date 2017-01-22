@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="45px" height="45px" viewBox="0 0 45 45" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="49px" height="48px" viewBox="0 0 49 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
     <title>reverse</title>
     <desc>Created with Sketch.</desc>
     <defs>
-        <polygon id="path-1" points="15.6480675 38.5781004 0.307158412 44.9900287 6.71908667 29.6491196 0.307158412 14.3082105 15.6480675 20.7201387 30.9889766 14.3082105 24.5770483 29.6491196 30.9889766 44.9900287"></polygon>
-        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="30.6818182" height="30.6818182" fill="white">
+        <rect id="path-1" x="7.01066029" y="7.11424288" width="33.75" height="33.75" rx="5"></rect>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="33.75" height="33.75" fill="white">
             <use xlink:href="#path-1"></use>
+        </mask>
+        <polygon id="path-3" points="16.9405431 30.9343601 0.0208064266 23.9892429 16.9405431 17.0441257 23.8856603 0.124389018 30.8307775 17.0441257 47.7505142 23.9892429 30.8307775 30.9343601 23.8856603 47.8540967"></polygon>
+        <mask id="mask-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="47.7297077" height="47.7297077" fill="white">
+            <use xlink:href="#path-3"></use>
         </mask>
     </defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="reverse" transform="translate(0.071966, -0.472255)">
-            <use id="enemy" stroke="#FFFFFF" mask="url(#mask-2)" stroke-width="10" fill="#F1C40F" xlink:href="#path-1"></use>
-            <path d="M30.6784978,31.2815308 L39.885006,31.2815308 C42.6515809,31.2815308 44.8828561,29.0439171 44.8828561,26.2836807 L44.8828561,5.59756276 C44.8828561,2.83098785 42.6452424,0.599712634 39.885006,0.599712634 L19.198888,0.599712634 C16.4323131,0.599712634 14.2010379,2.83732635 14.2010379,5.59756276 L14.2010379,14.6961719 L15.6480675,15.3009763 L19.2010379,13.8159671 L19.2010379,5.59971263 L39.8828561,5.59971263 L39.8828561,26.2815308 L31.2114549,26.2815308 L29.9962107,29.6491196 L30.6784978,31.2815308 Z" id="Combined-Shape" fill="#FFFFFF"></path>
+        <g id="reverse" transform="translate(0.403154, 0.222016)" stroke="#FFFFFF" stroke-width="10">
+            <use id="wall" mask="url(#mask-2)" fill="#7F8C8D" xlink:href="#path-1"></use>
+            <use id="enemy" mask="url(#mask-4)" fill="#E74C3C" xlink:href="#path-3"></use>
         </g>
     </g>
 </svg>
