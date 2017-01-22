@@ -53,10 +53,8 @@ export default {
 
   checkForWinOrLoss () {
     if (this.isLossConditionMet) {
-      alert('Lost!');
       this.reloadLevel();
     } else if (this.isWinConditionMet) {
-      alert('Won!');
       this.loadNextLevel();
     }
   },
@@ -204,12 +202,12 @@ export default {
     }
 
     player.moveTo(x, y);
+    this.pickUpCollectablesAt(x, y);
+    this.moveEnemies();
 
     // Wait for player move animation to complete before reacting to it.
     setTimeout(() => {
       this.teleportFrom(x, y);
-      this.pickUpCollectablesAt(x, y);
-      this.moveEnemies();
       this.frozenTurnsRemaining = Math.max(this.frozenTurnsRemaining - 1, 0);
       this.checkForWinOrLoss();
     }, PLAYER_MOVE_DURATION);
