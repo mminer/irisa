@@ -1,5 +1,13 @@
 import { PLAYER_MOVE_DURATION } from 'constants';
-import { Door, Enemy, FreezeTime, Player, Teleporter, Wall} from './entities';
+import {
+  Door,
+  Enemy,
+  FreezeTime,
+  Player,
+  Reverse,
+  Teleporter,
+  Wall,
+} from './entities';
 import levels from './levels';
 import { createEntitiesFromLevel, findOverlappingEntities } from './util';
 
@@ -37,6 +45,12 @@ export default {
     return this.state.entities.find(entity => entity instanceof Player);
   },
 
+  get walls () {
+    return this.state.entities
+      .filter(entity => entity instanceof Wall)
+      .filter(wall => !wall.isDisabled)
+  },
+
   checkForWinOrLoss () {
     if (this.isLossConditionMet) {
       alert('Lost!');
@@ -53,9 +67,7 @@ export default {
   },
 
   isWallAt (x, y) {
-    return this.state.entities
-      .filter(entity => entity instanceof Wall)
-      .some(wall => wall.isAt(x, y));
+    return this.walls.some(wall => wall.isAt(x, y));
   },
 
   pickUpCollectablesAt (x, y) {
@@ -64,12 +76,36 @@ export default {
       .filter(entity => !entity.isDisabled)
       .find(freezeTime => freezeTime.isAt(x, y));
 
-    if (!freezeTime) {
-      return;
+    if (freezeTime) {
+      this.frozenTurnsRemaining = freezeTime.forTurns;
+      freezeTime.isDisabled = true;
     }
 
-    this.frozenTurnsRemaining = freezeTime.forTurns;
-    freezeTime.isDisabled = true;
+    const reverse = this.state.entities
+      .filter(entity => entity instanceof Reverse)
+      .filter(entity => !entity.isDisabled)
+      .find(reverse => reverse.isAt(x, y));
+
+    if (reverse) {
+      this.reverseEnemiesAndWalls();
+      this.frozenTurnsRemaining += 1;
+      reverse.isDisabled = true;
+    }
+  },
+
+  reverseEnemiesAndWalls () {
+    const enemies = this.enemies;
+    const walls = this.walls;
+
+    // Remove the old enemies and walls.
+    enemies.forEach(enemy => enemy.isDisabled = true);
+    walls.forEach(wall => wall.isDisabled = true);
+
+    // Create new enemies and walls where the old ones once were.
+    const newEnemies = walls.map(({ x, y }) => new Enemy(x, y));
+    const newWalls = enemies.map(({ x, y }) => new Wall(x, y));
+
+    this.state.entities = this.state.entities.concat(newEnemies, newWalls);
   },
 
   teleportFrom (x, y) {

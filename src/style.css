@@ -58,6 +58,9 @@ main {
   background-size: 90%;
   position: absolute;
 
+  &.disabled {
+    opacity: 0;
+  }
 }
 
 .door {
@@ -71,18 +74,10 @@ main {
   background-image: url(static/img/enemy.svg);
   transition: all 0.6s;
   z-index: 2;
-
-  &.disabled {
-    opacity: 0;
-  }
 }
 
 .freeze-time {
   transition: all 0.2s;
-
-  &.disabled {
-    opacity: 0;
-  }
 
   &.for-1-turns { background-image: url(static/img/freezetime1.svg); }
   &.for-2-turns { background-image: url(static/img/freezetime2.svg); }
@@ -96,11 +91,16 @@ main {
   z-index: 1;
 }
 
+.reverse {
+  background-image: url(static/img/reverse.svg);
+}
+
 .teleporter {
   background-image: url(static/img/teleporter.svg);
 }
 
 .wall {
   background-image: url(static/img/wall.svg);
+  transition: all 0.6s;
   z-index: 0;
 }
