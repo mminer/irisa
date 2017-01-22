@@ -18,7 +18,7 @@ After cloning the repository, run the following.
     npm install
     npm run build
 
-Then open *build/index.html* in your browser.
+Then open *index.html* in your browser.
 
 
 ## Credit
