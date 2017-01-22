@@ -1,6 +1,16 @@
 :root {
-  --player-transition-duration: 0.2s;
-  --square-size: 40px;
+  --board-color: #3498db;
+}
+
+@keyframes pulsate {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 html {
@@ -16,6 +26,8 @@ html {
 }
 
 body {
+  background-color: white;
+  display: flex;
   height: 100%;
   margin: 0;
   padding: 0;
@@ -23,25 +35,30 @@ body {
 }
 
 main {
-  height: 100%;
-  width: 100%;
+  background-color: var(--board-color);
+  border-radius: 25px;
+  box-shadow: 0 0 0 25px var(--board-color);
+  margin: auto;
+  position: relative;
 }
 
 .entity {
-  height: var(--square-size);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 45px 45px;
   position: absolute;
-  width: var(--square-size);
 }
 
 .door {
-  background-color: forestgreen;
+  animation: pulsate 2s infinite;
+  background-image: url(static/img/door.svg);
   z-index: 0;
 }
 
 .enemy {
-  background-color: darkred;
+  animation: spin 3s infinite linear;
+  background-image: url(static/img/enemy.svg);
   transition: all 0.6s;
-  transition-delay: var(--player-transition-duration);
   z-index: 2;
 
   &.destroyed {
@@ -50,12 +67,12 @@ main {
 }
 
 .player {
-  background-color: dodgerblue;
-  transition: all var(--player-transition-duration);
+  background-image: url(static/img/player.svg);
+  transition: all 0.2s;
   z-index: 1;
 }
 
 .wall {
-  background-color: slategray;
+  background-image: url(static/img/wall.svg);
   z-index: 0;
 }

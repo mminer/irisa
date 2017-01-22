@@ -8,15 +8,20 @@ import { SQUARE_SIZE } from './constants';
 import { DOWN, LEFT, R, RIGHT, UP } from './keycodes';
 import store from './store';
 
-store.loadLevel(0);
+store.reloadLevel();
 
 new Vue({
   data: { state: store.state },
   el: 'main',
   render (createElement) {
-    const { door, enemies, player, walls } = this.$root.$data.state;
-
-    window.door = door;
+    const {
+      columnCount,
+      door,
+      enemies,
+      player,
+      rowCount,
+      walls,
+    } = this.$root.$data.state;
 
     const enemyNodes = enemies.map(({ isDestroyed, x, y }) => createElement(Enemy, {
       props: { isDestroyed, x, y },
@@ -29,11 +34,15 @@ new Vue({
     return createElement('main', {
       on: {
         'click': event => {
-          const { clientX, clientY } = event;
-          const x = Math.floor(clientX / SQUARE_SIZE);
-          const y = Math.floor(clientY / SQUARE_SIZE);
+          const { offsetX, offsetY } = event;
+          const x = Math.floor(offsetX / SQUARE_SIZE);
+          const y = Math.floor(offsetY / SQUARE_SIZE);
           store.movePlayerTo(x, y);
         },
+      },
+      style: {
+        height: `${rowCount * SQUARE_SIZE}px`,
+        width: `${columnCount * SQUARE_SIZE}px`,
       },
     }, [
       createElement(Player, {

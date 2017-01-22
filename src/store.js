@@ -6,6 +6,9 @@ export default {
   currentLevelNumber: 0,
 
   state: {
+    rowCount: 0,
+    columnCount: 0,
+
     entities: [],
 
     get door () {
@@ -45,6 +48,7 @@ export default {
       this.reloadLevel();
     } else if (this.isWinConditionMet) {
       alert('Won!');
+      this.loadNextLevel();
     }
   },
 
@@ -52,10 +56,19 @@ export default {
     return this.state.walls.some(wall => wall.isAtPosition(x, y));
   },
 
+
+  // Level management:
+
   loadLevel (levelNumber) {
     const level = levels[levelNumber];
     this.state.entities = createEntitiesFromLevel(level);
+    this.state.rowCount = level.length;
+    this.state.columnCount = level[0].length;
     this.currentLevelNumber = levelNumber;
+  },
+
+  loadNextLevel () {
+    this.loadLevel(this.currentLevelNumber + 1);
   },
 
   reloadLevel () {

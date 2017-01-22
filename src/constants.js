@@ -1,1 +1,1 @@
-export const SQUARE_SIZE = 40;
+export const SQUARE_SIZE = 50;

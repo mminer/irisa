@@ -32,7 +32,9 @@ export function findOverlappingEntities (entities) {
 
 export function getEntityStyle (x, y) {
   return {
+    height: `${SQUARE_SIZE}px`,
     left: `${x * SQUARE_SIZE}px`,
     top: `${y * SQUARE_SIZE}px`,
+    width: `${SQUARE_SIZE}px`,
   };
 }
