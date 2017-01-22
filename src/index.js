@@ -1,22 +1,35 @@
 import './style.css';
 import Vue from 'vue';
-import EntityComponent from './entitycomponent';
+import Board from './components/board';
+import Footer from './components/footer';
+import Nav from './components/nav';
 import { DOWN, LEFT, R, RIGHT, UP } from './keycodes';
+import levels from './levels';
 import store from './store';
 
 store.reloadLevel();
 
 new Vue({
   data: { state: store.state },
-  el: 'main',
+  el: '#app',
   render (createElement) {
-    const { boardSize, entities } = this.$root.$data.state;
+    const { boardSize, currentLevelNumber, entities } = this.$root.$data.state;
 
-    const childElements = entities.map(entity => createElement(EntityComponent, {
-      props: { boardSize, ...entity.props },
-    }));
-
-    return createElement('main', childElements);
+    return createElement('div', {
+      attrs: { id: 'app' },
+    }, [
+      createElement(Nav, {
+        props: {
+          currentLevelNumber,
+          levelCount: levels.length,
+          loadLevel: levelNumber => store.loadLevel(levelNumber),
+        },
+      }),
+      createElement(Board, {
+        props: { boardSize, entities },
+      }),
+      createElement(Footer),
+    ]);
   },
 });
 

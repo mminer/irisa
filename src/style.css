@@ -1,6 +1,10 @@
 :root {
-  --board-color: #3498db;
-  --board-percent-size: 84;
+  --board-size: 84vmin;
+  --level-button-size: 2vmin;
+
+  /* Colors */
+  --blue: #3498db;
+  --gray: #7F8C8D;
 }
 
 @keyframes pulsate {
@@ -18,17 +22,24 @@ html {
   box-sizing: border-box;
   height: 100%;
   width: 100%;
+
+  /* Set up font sizes so that 1rem = 10px. */
+  font-size: 62.5%;
 }
 
 *,
 *::before,
 *::after {
   box-sizing: inherit;
+  outline: none;
 }
 
 body {
   background-color: white;
+  color: var(--gray);
   display: flex;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.6rem;
   height: 100%;
   margin: 0;
   padding: 0;
@@ -36,19 +47,84 @@ body {
 }
 
 #app {
-  background-color: var(--board-color);
+  background-color: var(--blue);
   border-radius: 5%;
   margin: auto;
   padding: 4vmin;
+  position: relative;
 
   /* Resize to fill percent of viewport while maintaining aspect ratio. */
-  height: var(--board-percent-size)vmin;
-  width: var(--board-percent-size)vmin;
+  height: var(--board-size);
+  width: var(--board-size);
+}
+
+nav {
+  bottom: 100%;
+
+  & button {
+    background-color: var(--gray);
+    border: none;
+    border-radius: 50%;
+    cursor: default;
+    height: var(--level-button-size);
+    padding: 0;
+    margin: 0 0.5rem;
+    transition: all 0.1s;
+    width: var(--level-button-size);
+
+    /* Hide text. */
+    text-indent: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+
+    &.complete {
+      background-color: #2ECC71;
+    }
+
+    &.current {
+      background-color: var(--blue);
+    }
+
+    &.complete,
+    &.current {
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+  }
 }
 
 main {
   position: relative;
   height: 100%;
+  width: 100%;
+}
+
+footer {
+  top: 100%;
+
+  & a {
+    border-bottom: 0.2rem solid transparent;
+    color: var(--blue);
+    font-weight: 500;
+    text-decoration: none;
+    transition: border-bottom-color 0.1s;
+
+    &:hover {
+      border-bottom-color: var(--blue);
+    }
+  }
+}
+
+footer,
+nav {
+  height: calc((100 - var(--board-size)) / 2);
+  left: 0;
+  line-height: calc((100 - var(--board-size)) / 2);
+  position: absolute;
+  text-align: center;
   width: 100%;
 }
 

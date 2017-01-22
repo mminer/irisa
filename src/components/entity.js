@@ -1,4 +1,4 @@
-import { getEntityStyle } from './util';
+import { getEntityStyle } from '../util';
 
 export default {
   functional: true,

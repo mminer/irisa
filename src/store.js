@@ -12,11 +12,11 @@ import levels from './levels';
 import { createEntitiesFromLevel, findOverlappingEntities } from './util';
 
 export default {
-  currentLevelNumber: 0,
   frozenTurnsRemaining: 0,
 
   state: {
     boardSize: 0,
+    currentLevelNumber: 0,
     entities: [],
   },
 
@@ -128,16 +128,16 @@ export default {
   loadLevel (levelNumber) {
     const level = levels[levelNumber];
     this.state.boardSize = level.length;
+    this.state.currentLevelNumber = levelNumber;
     this.state.entities = createEntitiesFromLevel(level);
-    this.currentLevelNumber = levelNumber;
   },
 
   loadNextLevel () {
-    this.loadLevel(this.currentLevelNumber + 1);
+    this.loadLevel(this.state.currentLevelNumber + 1);
   },
 
   reloadLevel () {
-    this.loadLevel(this.currentLevelNumber);
+    this.loadLevel(this.state.currentLevelNumber);
   },
 
 
