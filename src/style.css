@@ -151,13 +151,12 @@ nav {
 .door {
   animation: pulsate 2s infinite;
   background-image: url(static/img/door.svg);
-  z-index: 0;
 }
 
 .enemy {
   animation: spin 3s infinite linear;
   background-image: url(static/img/enemy.svg);
-  transition: all 0.6s;
+  transition: all 0.6s ease-out;
   z-index: 2;
 }
 
@@ -182,10 +181,10 @@ nav {
 
 .teleporter {
   background-image: url(static/img/teleporter.svg);
+  animation: spin 10s infinite linear reverse;
 }
 
 .wall {
   background-image: url(static/img/wall.svg);
   transition: all 0.6s;
-  z-index: 0;
 }

@@ -124,12 +124,13 @@ export default {
     const firstTeleporter = teleporters.find(teleporter => teleporter.isAt(x, y));
 
     if (!firstTeleporter) {
-      return;
+      return false;
     }
 
     const secondTeleporter = teleporters.find(teleporter => teleporter != firstTeleporter);
     const { x: newX, y: newY } = secondTeleporter;
     this.player.moveTo(newX, newY);
+    return true;
   },
 
   win () {
@@ -141,7 +142,11 @@ export default {
   // Level management:
 
   loadLevel (levelNumber) {
-    if (levelNumber >= levels.length) {
+    const allLevelsComplete = levelNumber >= levels.length;
+
+    if (allLevelsComplete) {
+      alert('That\'s all for now. Thanks for playing!');
+      location.reload();
       return;
     }
 
@@ -182,7 +187,14 @@ export default {
     }
 
     this.enemies.forEach(this.moveEnemy, this);
-    this.killOverlappingEnemies();
+
+    if (this.isLossConditionMet) {
+      this.lose();
+    } else if (this.isWinConditionMet) {
+      this.win();
+    } else {
+      this.killOverlappingEnemies();
+    }
   },
 
   moveEnemy (enemy) {
@@ -224,14 +236,13 @@ export default {
     }
 
     player.moveTo(x, y);
-    this.pickUpCollectablesAt(x, y);
-    this.moveEnemies();
 
     // Wait for player move animation to complete before reacting to it.
     setTimeout(() => {
       this.teleportFrom(x, y);
+      this.pickUpCollectablesAt(x, y);
+      this.moveEnemies();
       this.frozenTurnsRemaining = Math.max(this.frozenTurnsRemaining - 1, 0);
-      this.checkForWinOrLoss();
     }, PLAYER_MOVE_DURATION);
   },
 
