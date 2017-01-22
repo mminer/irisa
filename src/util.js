@@ -1,5 +1,7 @@
 import { Entity } from './entities';
 
+const isChrome = navigator.userAgent.toLowerCase().includes('chrome');
+
 export function createEntitiesFromLevel (level) {
   return level.reduce((entityArray, rowLine, y) =>
     rowLine
@@ -41,6 +43,11 @@ export function getEntityStyle (boardSize, x, y) {
 }
 
 export function playSoundEffect (audio) {
+  // Playing short audio clips slows down Safari, so only play them on Chrome.
+  if (!isChrome) {
+    return;
+  }
+
   audio.pause();
   audio.currentTime = 0;
   audio.play();

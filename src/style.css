@@ -171,7 +171,7 @@ nav {
 
 .player {
   background-image: url(static/img/player.svg);
-  transition: all 0.2s;
+  transition: all 0.2s ease-out;
   z-index: 1;
 }
 
