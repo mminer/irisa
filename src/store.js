@@ -1,43 +1,39 @@
-import { Door, Enemy, Player, Wall} from './entities';
+import { Door, Enemy, FreezeTime, Player, Wall} from './entities';
 import { createEntitiesFromLevel, findOverlappingEntities } from './util';
 import levels from './levels';
 
 export default {
   currentLevelNumber: 0,
+  frozenTurnsRemaining: 0,
 
   state: {
     boardSize: 0,
     entities: [],
-
-    get door () {
-      return this.entities.find(entity => entity instanceof Door);
-    },
-
-    get enemies () {
-      return this.entities.filter(entity => entity instanceof Enemy);
-    },
-
-    get player () {
-      return this.entities.find(entity => entity instanceof Player);
-    },
-
-    get walls () {
-      return this.entities.filter(entity => entity instanceof Wall);
-    },
   },
 
-  get aliveEnemies () {
-    return this.state.enemies.filter(enemy => !enemy.isDestroyed);
+  get enemies () {
+    return this.state.entities
+      .filter(entity => entity instanceof Enemy)
+      .filter(enemy => !enemy.isDisabled);
+  },
+
+  get isEnemiesFrozen () {
+    return this.frozenTurnsRemaining > 0;
   },
 
   get isLossConditionMet () {
-    const { x, y } = this.state.player;
-    return this.aliveEnemies.some(enemy => enemy.isAtPosition(x, y));
+    const { x, y } = this.player;
+    return this.enemies.some(enemy => enemy.isAt(x, y));
   },
 
   get isWinConditionMet () {
-    const { x, y } = this.state.door;
-    return this.state.player.isAtPosition(x, y);
+    const door = this.state.entities.find(entity => entity instanceof Door);
+    const { x, y } = door;
+    return this.player.isAt(x, y);
+  },
+
+  get player () {
+    return this.state.entities.find(entity => entity instanceof Player);
   },
 
   checkForWinOrLoss () {
@@ -55,8 +51,24 @@ export default {
     return x < 0 || x >= boardSize || y < 0 || y >= boardSize;
   },
 
-  isWallAtPosition (x, y) {
-    return this.state.walls.some(wall => wall.isAtPosition(x, y));
+  isWallAt (x, y) {
+    return this.state.entities
+      .filter(entity => entity instanceof Wall)
+      .some(wall => wall.isAt(x, y));
+  },
+
+  pickUpCollectablesAt (x, y) {
+    const freezeTime = this.state.entities
+      .filter(entity => entity instanceof FreezeTime)
+      .filter(entity => !entity.isDisabled)
+      .find(freezeTime => freezeTime.isAt(x, y));
+
+    if (!freezeTime) {
+      return;
+    }
+
+    this.frozenTurnsRemaining = freezeTime.forTurns;
+    freezeTime.isDisabled = true;
   },
 
 
@@ -81,25 +93,29 @@ export default {
   // Enemy movement:
 
   killOverlappingEnemies () {
-    findOverlappingEntities(this.aliveEnemies).forEach(enemy => {
+    findOverlappingEntities(this.enemies).forEach(enemy => {
       const { x, y } = enemy;
 
-      if (!this.isWallAtPosition(x, y)) {
+      if (!this.isWallAt(x, y)) {
         const wall = new Wall(x, y);
         this.state.entities.push(wall);
       }
 
-      enemy.isDestroyed = true;
+      enemy.isDisabled = true;
     });
   },
 
   moveEnemies () {
-    this.aliveEnemies.forEach(this.moveEnemy, this);
+    if (this.isEnemiesFrozen) {
+      return;
+    }
+
+    this.enemies.forEach(this.moveEnemy, this);
     this.killOverlappingEnemies();
   },
 
   moveEnemy (enemy) {
-    const { player } = this.state;
+    const { player } = this;
     let { x, y } = enemy;
 
     // Move horizontally towards player.
@@ -118,8 +134,8 @@ export default {
 
     enemy.moveTo(x, y);
 
-    if (this.isWallAtPosition(x, y)) {
-      enemy.isDestroyed = true;
+    if (this.isWallAt(x, y)) {
+      enemy.isDisabled = true;
     }
   },
 
@@ -127,17 +143,19 @@ export default {
   // Player movement:
 
   movePlayerBy (xDelta, yDelta) {
-    const { player } = this.state;
+    const { player } = this;
     let { x, y } = player;
     x += xDelta;
     y += yDelta;
 
-    if (this.isBeyondBoundary(x, y) || player.isBeyondMovementRange(x, y) || this.isWallAtPosition(x, y)) {
+    if (this.isBeyondBoundary(x, y) || player.isBeyondMovementRange(x, y) || this.isWallAt(x, y)) {
       return;
     }
 
     player.moveTo(x, y);
+    this.pickUpCollectablesAt(x, y);
     this.moveEnemies();
+    this.frozenTurnsRemaining = Math.max(this.frozenTurnsRemaining - 1, 0);
     this.checkForWinOrLoss();
   },
 

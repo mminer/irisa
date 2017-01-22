@@ -1,12 +1,19 @@
 import { DOOR, ENEMY, PLAYER, WALL } from './glyphs';
 
 export class Entity {
-  constructor (x, y) {
+  constructor (className, x, y) {
+    this.className = className;
+    this.isDisabled = false;
     this.x = x;
     this.y = y;
   }
 
-  isAtPosition (x, y) {
+  get props () {
+    const { className, isDisabled, x, y } = this;
+    return { className, isDisabled, x, y };
+  }
+
+  isAt (x, y) {
     return this.x === x && this.y == y;
   }
 
@@ -22,6 +29,13 @@ export class Entity {
   }
 
   static fromGlyph (glyph, x, y) {
+    const number = parseInt(glyph);
+
+    // The freeze time collectable uses numbers 1 - 9 as its glyphs.
+    if (number) {
+      return new FreezeTime(x, y, number);
+    }
+
     switch (glyph) {
       case DOOR:
         return new Door(x, y);
@@ -41,13 +55,33 @@ export class Entity {
   }
 }
 
-export class Enemy extends Entity {
+export class Door extends Entity {
   constructor (x, y) {
-    super(x, y);
-    this.isDestroyed = false;
+    super('door', x, y);
   }
 }
 
-export class Door extends Entity {}
-export class Player extends Entity {}
-export class Wall extends Entity {}
+export class Enemy extends Entity {
+  constructor (x, y) {
+    super('enemy', x, y);
+  }
+}
+
+export class FreezeTime extends Entity {
+  constructor (x, y, forTurns) {
+    super(`freeze-time for-${forTurns}-turns`, x, y);
+    this.forTurns = forTurns;
+  }
+}
+
+export class Player extends Entity {
+  constructor (x, y) {
+    super('player', x, y);
+  }
+}
+
+export class Wall extends Entity {
+  constructor (x, y) {
+    super('wall', x, y);
+  }
+}

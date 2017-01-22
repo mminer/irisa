@@ -57,6 +57,7 @@ main {
   background-repeat: no-repeat;
   background-size: 90%;
   position: absolute;
+
 }
 
 .door {
@@ -71,9 +72,22 @@ main {
   transition: all 0.6s;
   z-index: 2;
 
-  &.destroyed {
+  &.disabled {
     opacity: 0;
   }
+}
+
+.freeze-time {
+  transition: all 0.2s;
+
+  &.disabled {
+    opacity: 0;
+  }
+
+  &.for-1-turns { background-image: url(static/img/freezetime1.svg); }
+  &.for-2-turns { background-image: url(static/img/freezetime2.svg); }
+  &.for-3-turns { background-image: url(static/img/freezetime3.svg); }
+  &.for-4-turns { background-image: url(static/img/freezetime4.svg); }
 }
 
 .player {
