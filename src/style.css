@@ -96,6 +96,10 @@ main {
   z-index: 1;
 }
 
+.teleporter {
+  background-image: url(static/img/teleporter.svg);
+}
+
 .wall {
   background-image: url(static/img/wall.svg);
   z-index: 0;

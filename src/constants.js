@@ -1,0 +1,1 @@
+export const PLAYER_MOVE_DURATION = 200;

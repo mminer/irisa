@@ -1,4 +1,4 @@
-import { DOOR, ENEMY, PLAYER, WALL } from './glyphs';
+import { DOOR, ENEMY, PLAYER, TELEPORTER, WALL } from './glyphs';
 
 export class Entity {
   constructor (className, x, y) {
@@ -46,6 +46,9 @@ export class Entity {
       case PLAYER:
         return new Player(x, y);
 
+      case TELEPORTER:
+        return new Teleporter(x, y);
+
       case WALL:
         return new Wall(x, y);
 
@@ -77,6 +80,12 @@ export class FreezeTime extends Entity {
 export class Player extends Entity {
   constructor (x, y) {
     super('player', x, y);
+  }
+}
+
+export class Teleporter extends Entity {
+  constructor (x, y) {
+    super('teleporter', x, y);
   }
 }
 

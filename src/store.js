@@ -1,6 +1,7 @@
-import { Door, Enemy, FreezeTime, Player, Wall} from './entities';
-import { createEntitiesFromLevel, findOverlappingEntities } from './util';
+import { PLAYER_MOVE_DURATION } from 'constants';
+import { Door, Enemy, FreezeTime, Player, Teleporter, Wall} from './entities';
 import levels from './levels';
+import { createEntitiesFromLevel, findOverlappingEntities } from './util';
 
 export default {
   currentLevelNumber: 0,
@@ -69,6 +70,20 @@ export default {
 
     this.frozenTurnsRemaining = freezeTime.forTurns;
     freezeTime.isDisabled = true;
+  },
+
+  teleportFrom (x, y) {
+    const teleporters = this.state.entities.filter(entity => entity instanceof Teleporter);
+
+    const firstTeleporter = teleporters.find(teleporter => teleporter.isAt(x, y));
+
+    if (!firstTeleporter) {
+      return;
+    }
+
+    const secondTeleporter = teleporters.find(teleporter => teleporter != firstTeleporter);
+    const { x: newX, y: newY } = secondTeleporter;
+    this.player.moveTo(newX, newY);
   },
 
 
@@ -153,10 +168,15 @@ export default {
     }
 
     player.moveTo(x, y);
-    this.pickUpCollectablesAt(x, y);
-    this.moveEnemies();
-    this.frozenTurnsRemaining = Math.max(this.frozenTurnsRemaining - 1, 0);
-    this.checkForWinOrLoss();
+
+    // Wait for player move animation to complete before reacting to it.
+    setTimeout(() => {
+      this.teleportFrom(x, y);
+      this.pickUpCollectablesAt(x, y);
+      this.moveEnemies();
+      this.frozenTurnsRemaining = Math.max(this.frozenTurnsRemaining - 1, 0);
+      this.checkForWinOrLoss();
+    }, PLAYER_MOVE_DURATION);
   },
 
   movePlayerDown () {
