@@ -1,4 +1,4 @@
-import { PLAYER_MOVE_DURATION } from 'constants';
+import { NEXT_LEVEL_DELAY, PLAYER_MOVE_DURATION } from './constants';
 import {
   Door,
   Enemy,
@@ -8,6 +8,7 @@ import {
   Teleporter,
   Wall,
 } from './entities';
+import { LOST, PLAYING, WON } from './gamestate';
 import levels from './levels';
 import { createEntitiesFromLevel, findOverlappingEntities } from './util';
 
@@ -18,6 +19,7 @@ export default {
     boardSize: 0,
     currentLevelNumber: 0,
     entities: [],
+    gameState: PLAYING,
   },
 
   get enemies () {
@@ -48,14 +50,14 @@ export default {
   get walls () {
     return this.state.entities
       .filter(entity => entity instanceof Wall)
-      .filter(wall => !wall.isDisabled)
+      .filter(wall => !wall.isDisabled);
   },
 
   checkForWinOrLoss () {
     if (this.isLossConditionMet) {
-      this.reloadLevel();
+      this.lose();
     } else if (this.isWinConditionMet) {
-      this.loadNextLevel();
+      this.win();
     }
   },
 
@@ -68,11 +70,16 @@ export default {
     return this.walls.some(wall => wall.isAt(x, y));
   },
 
+  lose () {
+    this.state.gameState = LOST;
+    setTimeout(() => this.reloadLevel(), NEXT_LEVEL_DELAY);
+  },
+
   pickUpCollectablesAt (x, y) {
     const freezeTime = this.state.entities
       .filter(entity => entity instanceof FreezeTime)
       .filter(entity => !entity.isDisabled)
-      .find(freezeTime => freezeTime.isAt(x, y));
+      .find(entity => entity.isAt(x, y));
 
     if (freezeTime) {
       this.frozenTurnsRemaining = freezeTime.forTurns;
@@ -82,7 +89,7 @@ export default {
     const reverse = this.state.entities
       .filter(entity => entity instanceof Reverse)
       .filter(entity => !entity.isDisabled)
-      .find(reverse => reverse.isAt(x, y));
+      .find(entity => entity.isAt(x, y));
 
     if (reverse) {
       this.reverseEnemiesAndWalls();
@@ -92,12 +99,17 @@ export default {
   },
 
   reverseEnemiesAndWalls () {
-    const enemies = this.enemies;
-    const walls = this.walls;
+    const { enemies, walls } = this;
 
-    // Remove the old enemies and walls.
-    enemies.forEach(enemy => enemy.isDisabled = true);
-    walls.forEach(wall => wall.isDisabled = true);
+    // Remove the old enemies and walls:
+
+    enemies.forEach(enemy => {
+      enemy.isDisabled = true;
+    });
+
+    walls.forEach(wall => {
+      wall.isDisabled = true;
+    });
 
     // Create new enemies and walls where the old ones once were.
     const newEnemies = walls.map(({ x, y }) => new Enemy(x, y));
@@ -120,14 +132,24 @@ export default {
     this.player.moveTo(newX, newY);
   },
 
+  win () {
+    this.state.gameState = WON;
+    setTimeout(() => this.loadNextLevel(), NEXT_LEVEL_DELAY);
+  },
+
 
   // Level management:
 
   loadLevel (levelNumber) {
+    if (levelNumber >= levels.length) {
+      return;
+    }
+
     const level = levels[levelNumber];
     this.state.boardSize = level.length;
     this.state.currentLevelNumber = levelNumber;
     this.state.entities = createEntitiesFromLevel(level);
+    this.state.gameState = PLAYING;
   },
 
   loadNextLevel () {

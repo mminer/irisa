@@ -14,7 +14,7 @@ export class Entity {
   }
 
   isAt (x, y) {
-    return this.x === x && this.y == y;
+    return this.x === x && this.y === y;
   }
 
   isBeyondMovementRange (x, y) {

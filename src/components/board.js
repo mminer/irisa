@@ -8,7 +8,7 @@ export default {
     entities: { type: Array, required: true },
   },
 
-  render: (createElement, { props }) => {
+  render (createElement, { props }) {
     const { boardSize, entities } = props;
 
     const entityElements = entities.map(entity => createElement(Entity, {

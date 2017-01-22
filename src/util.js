@@ -1,13 +1,13 @@
 import { Entity } from './entities';
 
 export function createEntitiesFromLevel (level) {
-  return level.reduce((entityArray, rowLine, y) => {
-    return rowLine
+  return level.reduce((entityArray, rowLine, y) =>
+    rowLine
       .split('')
       .map((glyph, x) => Entity.fromGlyph(glyph, x, y))
       .filter(entity => entity)
-      .concat(entityArray);
-  }, []);
+      .concat(entityArray),
+    []);
 }
 
 export function findOverlappingEntities (entities) {
@@ -23,10 +23,10 @@ export function findOverlappingEntities (entities) {
     }, new Map());
 
   return Array.from(positionMap)
-    .filter(([position, entitiesAtPosition]) => entitiesAtPosition.length > 1)
-    .reduce((entitiesArray, [position, entitiesAtPosition]) => {
-      return entitiesArray.concat(entitiesAtPosition);
-    }, []);
+    .filter(([, entitiesAtPosition]) => entitiesAtPosition.length > 1)
+    .reduce((entitiesArray, [, entitiesAtPosition]) =>
+      entitiesArray.concat(entitiesAtPosition),
+    []);
 }
 
 export function getEntityStyle (boardSize, x, y) {

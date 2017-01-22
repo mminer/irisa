@@ -52,10 +52,19 @@ body {
   margin: auto;
   padding: 4vmin;
   position: relative;
+  transition: filter 0.5s;
 
   /* Resize to fill percent of viewport while maintaining aspect ratio. */
   height: var(--board-size);
   width: var(--board-size);
+
+  &.lost {
+    filter: blur(0.3rem) grayscale(100%);
+  }
+
+  &.won {
+    filter: blur(0.3rem);
+  }
 }
 
 nav {

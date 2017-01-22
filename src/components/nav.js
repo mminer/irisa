@@ -1,4 +1,4 @@
-import LevelButton from './levelbutton.js';
+import LevelButton from './levelbutton';
 
 export default {
   functional: true,
@@ -9,7 +9,7 @@ export default {
     loadLevel: { type: Function, required: true },
   },
 
-  render: (createElement, { props }) => {
+  render (createElement, { props }) {
     const { currentLevelNumber, levelCount, loadLevel } = props;
 
     // http://stackoverflow.com/a/20066663
@@ -17,11 +17,11 @@ export default {
       .apply(null, { length: levelCount })
       .map(Number.call, Number);
 
-    const levelButtons = levelNumbers.map(levelNumber => {
-      return createElement(LevelButton, {
+    const levelButtons = levelNumbers.map(levelNumber =>
+      createElement(LevelButton, {
         props: { currentLevelNumber, levelNumber, loadLevel },
-      });
-    });
+      })
+    );
 
     return createElement('nav', levelButtons);
   },

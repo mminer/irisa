@@ -7,7 +7,7 @@ export default {
     loadLevel: { type: Function, required: true },
   },
 
-  render: (createElement, { props }) => {
+  render (createElement, { props }) {
     const { currentLevelNumber, levelNumber, loadLevel } = props;
 
     return createElement('button', {

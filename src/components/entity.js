@@ -11,7 +11,7 @@ export default {
     y: { type: Number, required: true },
   },
 
-  render: (createElement, { props }) => {
+  render (createElement, { props }) {
     const { boardSize, className, isDisabled, x, y } = props;
 
     return createElement('div', {

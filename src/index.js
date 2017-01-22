@@ -9,14 +9,20 @@ import store from './store';
 
 store.reloadLevel();
 
-new Vue({
+const app = new Vue({
   data: { state: store.state },
   el: '#app',
   render (createElement) {
-    const { boardSize, currentLevelNumber, entities } = this.$root.$data.state;
+    const {
+      boardSize,
+      currentLevelNumber,
+      entities,
+      gameState,
+    } = this.$root.$data.state;
 
     return createElement('div', {
-      attrs: { id: 'app' },
+      'attrs': { id: 'app' },
+      'class': gameState.toLowerCase(),
     }, [
       createElement(Nav, {
         props: {
