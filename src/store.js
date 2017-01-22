@@ -6,9 +6,7 @@ export default {
   currentLevelNumber: 0,
 
   state: {
-    rowCount: 0,
-    columnCount: 0,
-
+    boardSize: 0,
     entities: [],
 
     get door () {
@@ -52,6 +50,11 @@ export default {
     }
   },
 
+  isBeyondBoundary (x, y) {
+    const { boardSize } = this.state;
+    return x < 0 || x >= boardSize || y < 0 || y >= boardSize;
+  },
+
   isWallAtPosition (x, y) {
     return this.state.walls.some(wall => wall.isAtPosition(x, y));
   },
@@ -61,9 +64,8 @@ export default {
 
   loadLevel (levelNumber) {
     const level = levels[levelNumber];
+    this.state.boardSize = level.length;
     this.state.entities = createEntitiesFromLevel(level);
-    this.state.rowCount = level.length;
-    this.state.columnCount = level[0].length;
     this.currentLevelNumber = levelNumber;
   },
 
@@ -127,14 +129,10 @@ export default {
   movePlayerBy (xDelta, yDelta) {
     const { player } = this.state;
     let { x, y } = player;
-    this.movePlayerTo(x + xDelta, y + yDelta);
-  },
+    x += xDelta;
+    y += yDelta;
 
-  movePlayerTo (x, y) {
-    const { player } = this.state;
-    const { x: currentX, y: currentY } = player;
-
-    if (player.isBeyondMovementRange(x, y) || this.isWallAtPosition(x, y)) {
+    if (this.isBeyondBoundary(x, y) || player.isBeyondMovementRange(x, y) || this.isWallAtPosition(x, y)) {
       return;
     }
 

@@ -4,7 +4,6 @@ import Door from './components/door';
 import Enemy from './components/enemy';
 import Player from './components/player';
 import Wall from './components/wall';
-import { SQUARE_SIZE } from './constants';
 import { DOWN, LEFT, R, RIGHT, UP } from './keycodes';
 import store from './store';
 
@@ -15,42 +14,32 @@ new Vue({
   el: 'main',
   render (createElement) {
     const {
-      columnCount,
+      boardSize,
       door,
       enemies,
       player,
-      rowCount,
       walls,
     } = this.$root.$data.state;
 
+    const doorNode = createElement(Door, {
+      props: { boardSize, x: door.x, y: door.y },
+    });
+
+    const playerNode = createElement(Player, {
+      props: { boardSize, x: player.x, y: player.y },
+    });
+
     const enemyNodes = enemies.map(({ isDestroyed, x, y }) => createElement(Enemy, {
-      props: { isDestroyed, x, y },
+      props: { boardSize, isDestroyed, x, y },
     }));
 
     const wallNodes = walls.map(({ x, y }) => createElement(Wall, {
-      props: { x, y },
+      props: { boardSize, x, y },
     }));
 
-    return createElement('main', {
-      on: {
-        'click': event => {
-          const { offsetX, offsetY } = event;
-          const x = Math.floor(offsetX / SQUARE_SIZE);
-          const y = Math.floor(offsetY / SQUARE_SIZE);
-          store.movePlayerTo(x, y);
-        },
-      },
-      style: {
-        height: `${rowCount * SQUARE_SIZE}px`,
-        width: `${columnCount * SQUARE_SIZE}px`,
-      },
-    }, [
-      createElement(Player, {
-        props: { x: player.x, y: player.y },
-      }),
-      createElement(Door, {
-        props: { x: door.x, y: door.y },
-      }),
+    return createElement('main', [
+      doorNode,
+      playerNode,
       ...enemyNodes,
       ...wallNodes,
     ]);

@@ -1,5 +1,6 @@
 :root {
   --board-color: #3498db;
+  --board-percent-size: 84;
 }
 
 @keyframes pulsate {
@@ -34,18 +35,27 @@ body {
   width: 100%;
 }
 
-main {
+#app {
   background-color: var(--board-color);
-  border-radius: 25px;
-  box-shadow: 0 0 0 25px var(--board-color);
+  border-radius: 5%;
   margin: auto;
+  padding: 4vmin;
+
+  /* Resize to fill percent of viewport while maintaining aspect ratio. */
+  height: var(--board-percent-size)vmin;
+  width: var(--board-percent-size)vmin;
+}
+
+main {
   position: relative;
+  height: 100%;
+  width: 100%;
 }
 
 .entity {
   background-position: center center;
   background-repeat: no-repeat;
-  background-size: 45px 45px;
+  background-size: 90%;
   position: absolute;
 }
 

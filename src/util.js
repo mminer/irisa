@@ -1,4 +1,3 @@
-import { SQUARE_SIZE } from './constants';
 import { Entity } from './entities';
 
 export function createEntitiesFromLevel (level) {
@@ -30,11 +29,13 @@ export function findOverlappingEntities (entities) {
     }, []);
 }
 
-export function getEntityStyle (x, y) {
+export function getEntityStyle (boardSize, x, y) {
+  const squareSize = 100 / boardSize;
+
   return {
-    height: `${SQUARE_SIZE}px`,
-    left: `${x * SQUARE_SIZE}px`,
-    top: `${y * SQUARE_SIZE}px`,
-    width: `${SQUARE_SIZE}px`,
+    height: `${squareSize}%`,
+    left: `${x * squareSize}%`,
+    top: `${y * squareSize}%`,
+    width: `${squareSize}%`,
   };
 }
