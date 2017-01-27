@@ -1,15 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="45px" height="44px" viewBox="0 0 45 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
-    <title>door</title>
-    <desc>Created with Sketch.</desc>
-    <defs>
-        <polygon id="path-1" points="22.4919355 0.575527156 44.9919355 16.922734 36.3977003 43.3730704 8.58617079 43.3730704 -0.00806446538 16.922734"></polygon>
-        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="45" height="42.7975432" fill="white">
-            <use xlink:href="#path-1"></use>
-        </mask>
-    </defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
-        <use id="door" stroke="#FFFFFF" mask="url(#mask-2)" stroke-width="10" fill="#2ECC71" xlink:href="#path-1"></use>
-    </g>
-</svg>
+<svg width="45" height="44" viewBox="0 0 45 44" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path id="a" d="M22.492.576l22.5 16.347-8.594 26.45H8.586l-8.594-26.45z"/><mask id="b" x="0" y="0" width="45" height="42.798" fill="#fff"><use xlink:href="#a"/></mask></defs><use stroke="#FFF" mask="url(#b)" stroke-width="10" fill="#2ECC71" xlink:href="#a"/></svg>

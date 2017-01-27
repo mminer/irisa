@@ -1,15 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="45px" height="46px" viewBox="0 0 45 46" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
-    <title>teleporter</title>
-    <desc>Created with Sketch.</desc>
-    <defs>
-        <circle id="path-1" cx="22.9031545" cy="23.0755272" r="22.5"></circle>
-        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="45" height="45" fill="white">
-            <use xlink:href="#path-1"></use>
-        </mask>
-    </defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-dasharray="10">
-        <use id="teleporter" stroke="#FFFFFF" mask="url(#mask-2)" stroke-width="10" xlink:href="#path-1"></use>
-    </g>
-</svg>
+<svg width="45px" height="45px" viewBox="0 0 45 45" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><circle id="a" cx="22.5" cy="22.5" r="22.5"></circle><mask id="b" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="45" height="45" fill="white"><use xlink:href="#a"></use></mask></defs><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-dasharray="10"><use stroke="#FFFFFF" mask="url(#b)" stroke-width="10" xlink:href="#a"></use></g></svg>

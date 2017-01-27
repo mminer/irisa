@@ -25,6 +25,7 @@ import {
 } from './util';
 
 export default {
+  canMove: true,
   frozenTurnsRemaining: 0,
 
   state: {
@@ -172,7 +173,6 @@ export default {
     this.state.currentLevelNumber = levelNumber;
     this.state.entities = createEntitiesFromLevel(level);
     this.state.gameState = PLAYING;
-    console.info('Loaded level', levelNumber);
   },
 
   loadNextLevel () {
@@ -244,7 +244,7 @@ export default {
   // Player movement:
 
   movePlayerBy (xDelta, yDelta) {
-    if (this.state.gameState !== PLAYING) {
+    if (!this.canMove || this.state.gameState !== PLAYING) {
       return;
     }
 
@@ -259,6 +259,7 @@ export default {
 
     player.moveTo(x, y);
     playSoundEffect(MOVE_AUDIO);
+    this.canMove = false;
 
     // Wait for player move animation to complete before reacting to it.
     setTimeout(() => {
@@ -266,6 +267,7 @@ export default {
       this.pickUpCollectablesAt(x, y);
       this.moveEnemies();
       this.frozenTurnsRemaining = Math.max(this.frozenTurnsRemaining - 1, 0);
+      this.canMove = true;
     }, PLAYER_MOVE_DURATION);
   },
 
